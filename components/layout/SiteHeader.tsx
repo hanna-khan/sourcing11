@@ -148,8 +148,7 @@ export function SiteHeader() {
           <Link
             href="/"
             className={cn(
-              "relative z-10 -ml-1 flex min-h-11 w-[10.5rem] items-center p-1 transition-opacity duration-700 focus-visible:opacity-100 sm:w-[12rem]",
-              pathname === "/" && !solid && "opacity-0",
+              "relative z-10 -ml-1 flex min-h-11 w-[10.5rem] items-center p-1 sm:w-[12rem]",
             )}
             aria-label="SOURCING11, Sourcing Eleven home"
           >

@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { Fragment, useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { Logo } from "@/components/layout/Logo";
 import Link from "next/link";
 import { ArrowIcon, LinkButton } from "@/components/ui/Button";
 import { images } from "@/data/images";
@@ -60,10 +59,7 @@ export function Hero() {
 
       <div className="container-x flex flex-1 flex-col justify-end pb-16 pt-[calc(var(--header-h)+3rem)] sm:pb-14 lg:justify-center lg:pb-12">
         <div className="max-w-5xl">
-          <div className="logo-reveal w-[15rem] sm:w-[19rem] lg:w-[23rem]">
-            <Logo tone="light" priority sizes="(min-width: 1024px) 368px, 304px" title="Sourcing Eleven" />
-          </div>
-          <h1 id="hero-title" className="font-serif-display enter-words mt-10 text-display text-ivory sm:mt-12" style={{ "--d": "0.35s" } as React.CSSProperties}>
+          <h1 id="hero-title" className="font-serif-display enter-words text-display text-ivory" style={{ "--d": "0.35s" } as React.CSSProperties}>
             {HEADLINE.split(" ").map((w, i, a) => (
               <Fragment key={i}>
                 <span className="word">
