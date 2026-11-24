@@ -28,6 +28,7 @@ export default function QuotePage() {
         kicker="Request a quote"
         title="Tell us about your product."
         intro="Four short steps. The more detail you share, the more useful our response will be — but a clear description and an estimated quantity are enough to start."
+        logo
         compact
       />
       <section className="section-y bg-white">

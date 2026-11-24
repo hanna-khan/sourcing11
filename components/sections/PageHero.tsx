@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import { SplitWords } from "@/components/animations/SplitWords";
+import { Logo } from "@/components/layout/Logo";
 import { Breadcrumbs, type Crumb } from "@/components/ui/Breadcrumbs";
 import { HeroVisualView, wideVisuals, type HeroVisual } from "@/components/heroes/HeroVisuals";
 import { cn } from "@/lib/utils/cn";
@@ -19,6 +20,7 @@ export function PageHero({
   visual,
   children,
   compact,
+  logo,
 }: {
   title: string;
   intro?: string;
@@ -30,6 +32,8 @@ export function PageHero({
   visual?: HeroVisual;
   children?: ReactNode;
   compact?: boolean;
+  /** Show the SOURCING11 wordmark above the title */
+  logo?: boolean;
 }) {
   const vis: HeroVisual | undefined = visual ?? (image ? { type: "arch", image, alt: imageAlt } : undefined);
   const wide = vis ? wideVisuals.includes(vis.type) : false;
@@ -57,8 +61,13 @@ export function PageHero({
           <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-7">
               <Breadcrumbs items={crumbs} />
-              {kicker && <p className="kicker enter mt-10">{kicker}</p>}
-              <SplitWords as="h1" entrance delay={0.1} text={title} className="font-serif-display mt-6 text-h1 text-ivory" />
+              {logo && (
+                <div className="logo-reveal mt-10 w-[15rem] sm:w-[19rem] lg:w-[23rem]">
+                  <Logo tone="light" priority sizes="(min-width: 1024px) 368px, 304px" title="Sourcing Eleven" />
+                </div>
+              )}
+              {kicker && <p className={cn("kicker enter", logo ? "mt-8" : "mt-10")}>{kicker}</p>}
+              <SplitWords as="h1" entrance delay={0.1} text={title} className={cn("font-serif-display text-h1 text-ivory", kicker || logo ? "mt-6" : "mt-10")} />
             </div>
             <div className="lg:col-span-5">
               {intro && (
@@ -76,8 +85,13 @@ export function PageHero({
         ) : (
           <div className={cn(vis ? "lg:col-span-6 xl:col-span-7" : "lg:max-w-4xl")}>
             <Breadcrumbs items={crumbs} />
-            {kicker && <p className="kicker enter mt-10">{kicker}</p>}
-            <SplitWords as="h1" entrance delay={0.1} text={title} className="font-serif-display mt-6 text-h1 text-ivory" />
+            {logo && (
+              <div className="logo-reveal mt-10 w-[15rem] sm:w-[19rem] lg:w-[23rem]">
+                <Logo tone="light" priority sizes="(min-width: 1024px) 368px, 304px" title="Sourcing Eleven" />
+              </div>
+            )}
+            {kicker && <p className={cn("kicker enter", logo ? "mt-8" : "mt-10")}>{kicker}</p>}
+            <SplitWords as="h1" entrance delay={0.1} text={title} className={cn("font-serif-display text-h1 text-ivory", kicker || logo ? "mt-6" : "mt-10")} />
             {intro && (
               <p className="enter mt-8 max-w-2xl text-lead text-ivory/80" style={d("0.25s")}>
                 {intro}
