@@ -1,0 +1,444 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Sourcing Eleven design tokens (see docs/DESIGN_SYSTEM.md)
+------------------------------------------------------------------- */
+@theme {
+  --color-navy: #0b1f39;
+  --color-navy-deep: #07172b;
+  --color-navy-soft: #16304f;
+  --color-gold: #c7a365;
+  --color-gold-soft: #d8bc8c;
+  /* AA-safe gold for text on light backgrounds (4.9:1 on white) */
+  --color-gold-ink: #8a6a33;
+  --color-ivory: #f7f5f0;
+  --color-white: #ffffff;
+  --color-ink: #202b38;
+  --color-muted: #77818d;
+  /* AA-safe secondary text on light backgrounds (5.6:1 on white) */
+  --color-muted-strong: #5c6672;
+  --color-line: #e7e5df;
+  --color-line-dark: rgb(216 188 140 / 0.18);
+  --color-danger: #a23b2c;
+  --color-success: #2f6b4f;
+
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-cormorant), "Times New Roman", serif;
+
+  --text-display: clamp(2.875rem, 1.6rem + 5.2vw, 7rem);
+  --text-display--line-height: 0.98;
+  --text-h1: clamp(2.5rem, 1.7rem + 3.4vw, 5rem);
+  --text-h1--line-height: 1.02;
+  --text-h2: clamp(2rem, 1.45rem + 2.3vw, 3.75rem);
+  --text-h2--line-height: 1.06;
+  --text-h3: clamp(1.375rem, 1.2rem + 0.7vw, 1.875rem);
+  --text-h3--line-height: 1.2;
+  --text-lead: clamp(1.125rem, 1.05rem + 0.35vw, 1.375rem);
+  --text-lead--line-height: 1.6;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.7;
+
+  --radius-pill: 999px;
+  --radius-card: 6px;
+  --radius-field: 8px;
+  --radius-media: 3px;
+
+  --shadow-lift: 0 30px 60px -30px rgb(7 23 43 / 0.35);
+  --shadow-panel: 0 24px 80px -24px rgb(7 23 43 / 0.28);
+
+  --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-thread: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --breakpoint-xs: 25rem;
+  --breakpoint-3xl: 112rem;
+}
+
+:root {
+  --gutter: clamp(1.25rem, 4vw, 4.5rem);
+  --container: 90rem;
+  --section-y: clamp(5rem, 3.5rem + 7vw, 11rem);
+  --header-h: 5rem;
+  color-scheme: light;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+  }
+  body {
+    @apply bg-white font-sans text-body text-ink;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--color-gold-soft);
+    color: var(--color-navy-deep);
+  }
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  .on-light :focus-visible {
+    outline-color: var(--color-gold-ink);
+  }
+  img, video, canvas, svg {
+    max-width: 100%;
+  }
+  [hidden] {
+    display: none !important;
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+  .section-y {
+    padding-block: var(--section-y);
+  }
+  .font-serif-display {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+  }
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--color-gold-ink);
+  }
+  .on-dark .kicker {
+    color: var(--color-gold-soft);
+  }
+  .kicker::before {
+    content: "";
+    width: 1.75rem;
+    height: 0.6rem;
+    border: 1px solid currentColor;
+    border-bottom: 0;
+    border-radius: 1.75rem 1.75rem 0 0;
+    flex: none;
+  }
+  .link-arc {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size 0.5s var(--ease-silk);
+  }
+  .link-arc:hover,
+  .link-arc:focus-visible,
+  .link-arc[aria-current="page"] {
+    background-size: 100% 1px;
+  }
+  .hairline {
+    height: 1px;
+    background: var(--color-line);
+  }
+  .on-dark .hairline {
+    background: var(--color-line-dark);
+  }
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+  }
+
+  /* Editorial prose for articles and long service copy */
+  .prose-editorial {
+    max-width: 42rem;
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--color-ink);
+  }
+  .prose-editorial > * + * {
+    margin-top: 1.25em;
+  }
+  .prose-editorial h2 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.5rem);
+    line-height: 1.15;
+    margin-top: 2.25em;
+    color: var(--color-navy);
+  }
+  .prose-editorial h3 {
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1.35;
+    margin-top: 1.9em;
+    color: var(--color-navy);
+  }
+  .prose-editorial ul,
+  .prose-editorial ol {
+    padding-left: 1.25rem;
+  }
+  .prose-editorial ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  .prose-editorial ul > li {
+    position: relative;
+    padding-left: 1.75rem;
+  }
+  .prose-editorial ul > li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.85em;
+    width: 0.9rem;
+    height: 1px;
+    background: var(--color-gold);
+  }
+  .prose-editorial ol {
+    list-style: decimal;
+  }
+  .prose-editorial li + li {
+    margin-top: 0.5em;
+  }
+  .prose-editorial a {
+    color: var(--color-gold-ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose-editorial strong {
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+  .prose-editorial blockquote {
+    border-left: 1px solid var(--color-gold);
+    padding-left: 1.5rem;
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.5rem;
+    line-height: 1.4;
+    color: var(--color-navy);
+  }
+}
+
+/* Elements that GSAP reveals start hidden only once JS confirms motion is OK.
+   Without JS (or with reduced motion) everything is visible. */
+.motion-ok [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 2rem, 0);
+}
+.motion-ok [data-reveal="fade"] {
+  transform: none;
+}
+.motion-ok [data-split] .word-inner {
+  transform: translate3d(0, 105%, 0);
+}
+.motion-ok [data-mask] {
+  clip-path: inset(100% 0% 0% 0%);
+}
+.motion-ok [data-draw] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.motion-ok [data-stagger-item] {
+  opacity: 0;
+}
+[data-split] .word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+[data-split] .word-inner {
+  display: inline-block;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* Hero entrance: hidden only while the hero timeline is allowed to run */
+.motion-ok [data-hero-arc] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+/* Map: small light travelling along each connection arc */
+@keyframes map-travel {
+  0% { offset-distance: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+.map-traveller {
+  offset-rotate: 0deg;
+  animation: map-travel 5.5s var(--ease-thread) infinite;
+}
+.map-traveller:nth-of-type(odd) { animation-delay: 1.2s; }
+@media (prefers-reduced-motion: reduce) {
+  .map-traveller { display: none; }
+}
+
+@keyframes step-in {
+  from { opacity: 0; transform: translate3d(1.5rem, 0, 0); }
+  to { opacity: 1; transform: none; }
+}
+.quote-step {
+  animation: step-in 0.5s var(--ease-silk);
+}
+
+/* ------------------------------------------------------------------
+   Above-the-fold entrances: pure CSS, so they start at first paint and
+   never wait for JavaScript (keeps LCP fast). Reduced motion disables them
+   through the global rule above.
+------------------------------------------------------------------- */
+@keyframes enter-rise {
+  from { opacity: 0; transform: translate3d(0, 1.25rem, 0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes word-rise {
+  from { transform: translate3d(0, 0.45em, 0); opacity: 0.25; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes media-settle {
+  from { transform: scale(1.08); }
+  to { transform: none; }
+}
+.enter {
+  animation: enter-rise 1s var(--ease-silk) both;
+  animation-delay: var(--d, 0s);
+}
+.enter-words .word {
+  overflow: visible;
+}
+.enter-words .word-inner {
+  animation: word-rise 1.1s var(--ease-silk) both;
+  animation-delay: calc(var(--d, 0s) + var(--i, 0) * 55ms);
+}
+.enter-media {
+  animation: media-settle 2.2s var(--ease-silk) both;
+}
+
+/* Sticky elements that sit under the header follow it when it hides */
+:root {
+  --header-offset: var(--header-h);
+}
+html[data-header="hidden"] {
+  --header-offset: 0px;
+}
+.sticky-under-header {
+  top: var(--header-offset);
+  transition: top 0.35s var(--ease-silk);
+}
+
+/* Official logo entrance: a left-to-right reveal, like the arc being drawn */
+@keyframes logo-wipe {
+  from { clip-path: inset(0 100% 0 0); opacity: 0.4; }
+  to { clip-path: inset(0 0 0 0); opacity: 1; }
+}
+.logo-reveal {
+  animation: logo-wipe 1.6s var(--ease-silk) 0.1s both;
+}
+
+/* ------------------------------------------------------------------
+   Page hero visuals (components/heroes). CSS-only entrances so they
+   start at first paint; GSAP adds pointer/scroll parallax after idle.
+------------------------------------------------------------------- */
+@keyframes hero-in {
+  from { opacity: 0; transform: translate3d(0, 2.5rem, 0) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes hero-fan-in {
+  from { opacity: 0; transform: translate3d(0, 3rem, 0) rotate(0deg) scale(0.9); }
+  to { opacity: 1; }
+}
+@keyframes draw-in {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.4); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+@keyframes pulse-ring {
+  0% { opacity: 0; transform: scale(0.6); }
+  40% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.15); }
+}
+.hero-in {
+  animation: hero-in 1.2s var(--ease-silk) both;
+  animation-delay: calc(0.25s + var(--i, 0) * 110ms);
+}
+.hero-draw {
+  stroke-dasharray: 1;
+  animation: draw-in 1.8s var(--ease-thread) both;
+  animation-delay: var(--d, 0.2s);
+}
+.hero-pop {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pop-in 0.7s var(--ease-silk) both;
+  animation-delay: var(--d, 0.6s);
+}
+.hero-spin {
+  animation: spin-slow 60s linear infinite;
+}
+.hero-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse-ring 3.6s var(--ease-silk) infinite;
+  animation-delay: var(--d, 0s);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-draw { stroke-dashoffset: 0; }
+  .hero-spin, .hero-pulse { animation: none; }
+}
+
+/* Fan tiles & stacked cards: resting pose comes from --r / --x; entrance animates in from flat */
+.hero-fan {
+  transform: translateX(var(--x, 0)) rotate(var(--r, 0deg));
+  animation: hero-fan-in 1.1s var(--ease-silk) both;
+  animation-delay: calc(0.3s + var(--i, 0) * 90ms);
+  transition: transform 0.7s var(--ease-silk), box-shadow 0.5s;
+}
+.hero-fan:hover,
+.hero-fan:focus-visible {
+  transform: translateX(var(--x, 0)) translateY(-8%) rotate(var(--r, 0deg)) scale(1.06);
+}
+.group\/stack:hover .stack-card {
+  transform: translateX(calc(var(--x, 0) * 1.35)) rotate(calc(var(--r, 0deg) * 1.5));
+}
+.group\/stack .stack-card:hover,
+.group\/stack .stack-card:focus-visible {
+  transform: translateX(calc(var(--x, 0) * 1.35)) translateY(-6%) rotate(0deg) scale(1.03);
+  z-index: 5;
+}
