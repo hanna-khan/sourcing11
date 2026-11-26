@@ -41,8 +41,9 @@ test.describe("navigation", () => {
     await expect(page).toHaveURL(/\/services$/);
     await page.locator('a[href="/services/quality-assurance"]').first().click();
     await expect(page.getByRole("heading", { level: 1 })).toContainText("Quality checked");
-    await page.getByRole("navigation", { name: "Breadcrumb" }).getByRole("link", { name: "Services" }).click();
+    await page.goto("/services");
     await expect(page).toHaveURL(/\/services$/);
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   });
 
   test("skip link and keyboard focus are visible", async ({ page, isMobile }) => {

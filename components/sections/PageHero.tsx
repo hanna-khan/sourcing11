@@ -1,46 +1,46 @@
 import type { CSSProperties, ReactNode } from "react";
 import { SplitWords } from "@/components/animations/SplitWords";
-import { Logo } from "@/components/layout/Logo";
-import { Breadcrumbs, type Crumb } from "@/components/ui/Breadcrumbs";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { type Crumb } from "@/components/ui/Breadcrumbs";
 import { HeroVisualView, wideVisuals, type HeroVisual } from "@/components/heroes/HeroVisuals";
+import { breadcrumbSchema } from "@/lib/seo/schema";
 import { cn } from "@/lib/utils/cn";
 
 /**
- * Navy inner-page hero: breadcrumbs, H1 with word reveal, intro, actions and a
+ * Navy inner-page hero: H1 with word reveal, intro, actions and a
  * page-specific visual (see components/heroes). Layered background: a soft
  * gold glow and two bridge arcs drawn on load.
  */
 export function PageHero({
   title,
   intro,
-  kicker,
   crumbs,
   image,
   imageAlt,
   visual,
   children,
   compact,
-  logo,
 }: {
   title: string;
   intro?: string;
+  /** @deprecated Hero kickers removed from the UI; prop kept so call sites stay unchanged */
   kicker?: string;
-  crumbs: Crumb[];
+  crumbs?: Crumb[];
   /** Shorthand for an arch visual */
   image?: string;
   imageAlt?: string;
   visual?: HeroVisual;
   children?: ReactNode;
   compact?: boolean;
-  /** Show the SOURCING11 wordmark above the title */
-  logo?: boolean;
 }) {
   const vis: HeroVisual | undefined = visual ?? (image ? { type: "arch", image, alt: imageAlt } : undefined);
   const wide = vis ? wideVisuals.includes(vis.type) : false;
   const d = (s: string) => ({ "--d": s }) as CSSProperties;
+  const crumbTrail = crumbs?.length ? [{ name: "Home", path: "/" }, ...crumbs] : null;
 
   return (
     <section className="on-dark grain relative isolate overflow-hidden bg-navy text-ivory">
+      {crumbTrail && <JsonLd data={breadcrumbSchema(crumbTrail)} />}
       <div aria-hidden="true" className="absolute inset-0 -z-10">
         <div className="absolute -right-[20%] -top-[30%] h-[80%] w-[70%] rounded-full bg-[radial-gradient(closest-side,rgb(199_163_101/0.16),transparent)]" />
         <div className="absolute -bottom-[40%] -left-[20%] h-[80%] w-[60%] rounded-full bg-[radial-gradient(closest-side,rgb(7_23_43/0.9),transparent)]" />
@@ -60,14 +60,7 @@ export function PageHero({
         {wide ? (
           <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-7">
-              <Breadcrumbs items={crumbs} />
-              {logo && (
-                <div className="logo-reveal mt-10 w-[15rem] sm:w-[19rem] lg:w-[23rem]">
-                  <Logo tone="light" priority sizes="(min-width: 1024px) 368px, 304px" title="Sourcing Eleven" />
-                </div>
-              )}
-              {kicker && <p className={cn("kicker enter", logo ? "mt-8" : "mt-10")}>{kicker}</p>}
-              <SplitWords as="h1" entrance delay={0.1} text={title} className={cn("font-serif-display text-h1 text-ivory", kicker || logo ? "mt-6" : "mt-10")} />
+              <SplitWords as="h1" entrance delay={0.1} text={title} className="font-serif-display text-h1 text-ivory" />
             </div>
             <div className="lg:col-span-5">
               {intro && (
@@ -84,14 +77,7 @@ export function PageHero({
           </div>
         ) : (
           <div className={cn(vis ? "lg:col-span-6 xl:col-span-7" : "lg:max-w-4xl")}>
-            <Breadcrumbs items={crumbs} />
-            {logo && (
-              <div className="logo-reveal mt-10 w-[15rem] sm:w-[19rem] lg:w-[23rem]">
-                <Logo tone="light" priority sizes="(min-width: 1024px) 368px, 304px" title="Sourcing Eleven" />
-              </div>
-            )}
-            {kicker && <p className={cn("kicker enter", logo ? "mt-8" : "mt-10")}>{kicker}</p>}
-            <SplitWords as="h1" entrance delay={0.1} text={title} className={cn("font-serif-display text-h1 text-ivory", kicker || logo ? "mt-6" : "mt-10")} />
+            <SplitWords as="h1" entrance delay={0.1} text={title} className="font-serif-display text-h1 text-ivory" />
             {intro && (
               <p className="enter mt-8 max-w-2xl text-lead text-ivory/80" style={d("0.25s")}>
                 {intro}

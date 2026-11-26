@@ -24,11 +24,8 @@ export default function QuotePage() {
     <>
       <JsonLd data={webPageSchema({ path: "/request-a-quote", title: TITLE, description: DESCRIPTION })} />
       <PageHero
-        crumbs={[{ name: "Request a Quote", path: "/request-a-quote" }]}
-        kicker="Request a quote"
         title="Tell us about your product."
         intro="Four short steps. The more detail you share, the more useful our response will be — but a clear description and an estimated quantity are enough to start."
-        logo
         compact
       />
       <section className="section-y bg-white">
